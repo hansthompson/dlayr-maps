@@ -1,5 +1,6 @@
 library(shiny);library(leaflet);library(RColorBrewer)
-library(htmltools);library(dlayr);library(dplyr);library(XML)
+library(htmltools);library(dlayr);library(dplyr);library(XML);library(lubridate)
+
 source("http://akdata.org/tidy-gps-functions/anchorage-ak-peoplemover.R")
 function(input, output, session) {
   colorpal <- reactive({
@@ -8,8 +9,7 @@ function(input, output, session) {
   
     get_data <- reactive({
       x <- get_tidy_gps()#fix
-      tidy_gps_obj <- calculate_delays(gtfsobj = , tidy_gpsobj = , lat_factor = 2.1)#
-      
+
       load("my_daily_gtfs.rda") #gtfs
       
       (get_data <- list(tidy_gps_obj, my_daily_gtfs))
@@ -42,7 +42,7 @@ function(input, output, session) {
       clearShapes() %>% clearMarkers() %>%
       addMarkers(data = gps_delays, lng = ~gps_lon, lat = ~gps_lat, popup = gps_delays$html) %>%
       addCircleMarkers(data = gps_delays, lng = ~A_lon, lat = ~A_lat, radius = ~A_dist * 2000, color = "green") %>%
-      addCircleMarkers(data = gps_delays, lng = ~B_lon, lat = ~B_lat, radius = ~B_dist * 2000, color = "red") %>%
+		      addCircleMarkers(data = gps_delays, lng = ~B_lon, lat = ~B_lat, radius = ~B_dist * 2000, color = "red") %>%
       addPolylines(dat = route_to_map, lng = ~stop_lon, lat = ~stop_lat, color = "green")
   })
 }
@@ -55,3 +55,4 @@ function(input, output, session) {
 #                                   (gtfs_today$all_stop_sequences  %>% ungroup()%>% select(-stop_sequence)), by = "stop_id") %>% 
 #                   group_by(stop_sequence) %>% 
 #                   filter(row_number() == 1), lng = ~stop_lon, lat = ~stop_lat, color = "yellow") 
+
