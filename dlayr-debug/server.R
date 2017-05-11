@@ -8,8 +8,7 @@ function(input, output, session) {
   })
   
     get_data <- reactive({
-      x <- get_tidy_gps()#fix
-
+      load("tidy_gps_obj.rda")
       load("my_daily_gtfs.rda") #gtfs
       
       (get_data <- list(tidy_gps_obj, my_daily_gtfs))
